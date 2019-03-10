@@ -16,23 +16,6 @@ predict.py
 train.py
 
 #===========python related==========
-Skip to content
- 
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- @qingbol Sign out
-0
-0 0 qingbol/ClmsDL Private
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights  Settings
-ClmsDL/.gitignore
-@qingbol qingbol Initial commit
-2750376  2 days ago
-105 lines (84 sloc)  1.17 KB
-    
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -137,15 +120,3 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-© 2019 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
