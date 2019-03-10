@@ -33,8 +33,8 @@ def main(_):
         .format(len(input_data.valid.labels)))
 
     #create a dataflow graph
-    graph = tf.Graph()
-    with graph.as_default():
+    mygraph = tf.Graph()
+    with mygraph.as_default():
         #1) Define some data & labbel placeholder.
         ## data
         data_placeholder = tf.placeholder(tf.float32, 
@@ -43,9 +43,9 @@ def main(_):
         ## labels
         label_placeholder = tf.placeholder(tf.float32, 
             shape=[None, FLAGS.class_number], name='label_placeholder')
-        # label_number = tf.argmax(label_placeholder, dimension=1)
-        label_number = tf.argmax(label_placeholder, axis=1)
-        # print("label_number is :", label_number)
+        # label_index = tf.argmax(label_placeholder, dimension=1)
+        label_index = tf.argmax(label_placeholder, axi=1)
+        # print("label_index is :", label_in)
 
         #2) initilize the weight matrices and bias vectors 
         coefficients = define_coefficients(filter_size=FLAGS.filter_size, 
@@ -57,18 +57,25 @@ def main(_):
         #3. construct the CNN model
         logits = lainet(data_placeholder, coefficients)
 
-        #4. calculate the softmax cross entropy between the logits and actual labels
-        # loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=tf_train_labels))
+        #4. calculate the cross entropy between the logits and actual labels
+        cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=label_placeholder)
+        cost = tf.reduce_mean(cross_entropy)
+
         #5. use optimizer to calculate the gradients of the loss function 
-        # optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
+        optimizer = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate).minimize(cost)
+
         # Predictions for the training, validation, and test data.
+        labels_pred = tf.nn.softmax(logits,name='y_pred')
+        class_pred= tf.argmax(labels_pred, axis=1)
+        #class_pred= tf.argmax(labels_pred, dimension=1)
+        correct_pred = tf.equal(class_pred, label_index)
+        accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
         # train_prediction = tf.nn.softmax(logits)
         # test_prediction = tf.nn.softmax(model(tf_test_dataset, variables))
 
-    # with tf.Session(graph=graph) as sess:
-        # saver = tf.train.Saver()
-        #
-        #store the trained model
+    with tf.Session(graph=mygraph) as sess:
+        sess.run(tf.global_variables_initializer())
+        #to be done
 
 if __name__ == "__main__":
     #set some superparameters which can reset befor run
