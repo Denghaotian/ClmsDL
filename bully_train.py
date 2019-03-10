@@ -16,11 +16,14 @@ import numpy as np
 
 
 def main(_):
-    print("train_path is ", FLAGS.train_path)
-    print("validation percent is ", FLAGS.validation_size)
+    print("train_path is :", FLAGS.train_path)
+    print("validation percent is :", FLAGS.validation_size)
     #prepare the training dataset & load data
     classes = os.listdir(FLAGS.train_path)
     input_data = loaddata.read_dataset(FLAGS.train_path, FLAGS.img_size, classes, FLAGS.validation_size)
+    print("******The traning data have been loaded**********")
+    print("Number of files in Training-set:  \t{}".format(len(input_data.train.labels)))
+    print("Number of files in Validation-set:\t{}".format(len(input_data.valid.labels)))
 
     #create a dataflow graph
     graph = tf.Graph()
