@@ -58,11 +58,13 @@ def main(_):
         logits = lainet(data_placeholder, coefficients)
 
         #4. calculate the cross entropy between the logits and actual labels
-        cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=label_placeholder)
+        cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits= 
+                        logits, labels=label_placeholder)
         cost = tf.reduce_mean(cross_entropy)
 
         #5. use optimizer to calculate the gradients of the loss function 
-        optimizer = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate).minimize(cost)
+        optimizer = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate) \
+                    .minimize(cost)
 
         # Predictions for the training, validation, and test data.
         labels_pred = tf.nn.softmax(logits,name='y_pred')
@@ -70,12 +72,35 @@ def main(_):
         #class_pred= tf.argmax(labels_pred, dimension=1)
         correct_pred = tf.equal(class_pred, label_index)
         accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
-        # train_prediction = tf.nn.softmax(logits)
-        # test_prediction = tf.nn.softmax(model(tf_test_dataset, variables))
 
+    saver = tf.train.Saver()
     with tf.Session(graph=mygraph) as sess:
         sess.run(tf.global_variables_initializer())
-        #to be done
+        for i in range(FLAGS.iteration_steps):
+            train_data_batch, train_label_batch, _, train_cls_batch = \
+                input_data.train.next_batch(FLAGS.batch_size)
+            val_data_batch, val_label_batch, _, val_cls_batch = \
+                input_data.valid.next_batch(FLAGS.batch_size)
+            
+            feed_dict_train = {data_placeholder: train_data_batch,
+                            label_placeholder: train_label_batch}
+            feed_dict_val = {data_placeholder: val_data_batch,
+                                label_placeholder: val_label_batc
+
+            sess.run(optimizer, feed_dict=feed_dict_train)
+
+            if i % int(input_data.train.num_examples/batch_size) == 0: 
+                val_loss = sess.run(cost, feed_dict=feed_dict_val)
+                epoch = int(i / int(input_data.train.num_examples/batch_size))    
+                train_acc = session.run(accuracy, feed_dict=feed_dict_train)
+                val_acc = session.run(accuracy, feed_dict=feed_dict_validate)
+                msg = "Training Epoch {0} --- Training Accuracy: {1:>6.1%}, Validation Accuracy: {2:>6.1%},  Validation Loss: {3:.3f}"
+                print(msg.format(epoch + 1, trian_acc, val_acc, val_loss)
+
+                #save the result
+                # saver.save(session, 'trained_model/bully-model') 
+                saver.save(sess, 'trained_model/dogs-cats-model') 
+
 
 if __name__ == "__main__":
     #set some superparameters which can reset befor run
@@ -85,7 +110,7 @@ if __name__ == "__main__":
     # ?% of the data will be used for validation
     flags.DEFINE_float('validation_size', 0.2, 'validation size.')
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
-    flags.DEFINE_integer('epoch_number', 4000, 'Number of epochs to run trainer.')
+    flags.DEFINE_integer('iteration_steps', 4000, 'Number of epochs to run trainer.')
     flags.DEFINE_integer('batch_size', 32, 'Number of batch size.')
     flags.DEFINE_string("train_path", "data_cat/training_data", "path of training data")
 
@@ -101,6 +126,5 @@ if __name__ == "__main__":
         'Number of features after flattern')
     print("flatten_nub is", FLAGS.flatten_num)
     flags.DEFINE_integer('fc_depth', 128, 'fully connected layer depth.')
-
 
     tf.app.run()
