@@ -3,6 +3,7 @@
 ## Authors
 Qingbo Lai  
 Haotian Deng
+
 CPSC8810 Deep Learning
 
 ## Note
