@@ -1,5 +1,9 @@
 import tensorflow as tf
 
+# def flatten_the_layer(array):
+#     shape = array.get_shape().as_list()
+#     return tf.reshape(array, [shape[0], shape[1] * shape[2] * shape[3]])
+
 def flatten_the_layer(array):
     layer_shape = layer.get_shape()
     num_features = layer_shape[1:4].num_elements()
@@ -24,3 +28,23 @@ def define_coefficients(filter_size, img_depth, filter_depth1, fileter_depth2
         'b1': b1, 'b2': b2, 'b3': b3, 'b4': b4, 'b5': b5
     }
     return coefficients
+
+def lainet(input_data, coefficients):
+    layer1_conv = tf.nn.conv2d(input=input_data, filter=coefficients['w1'], strides=[1, 1, 1, 1], padding='SAME')
+    layer1_actv = tf.nn.relu(layer1_conv + variables['b1'])
+    layer1_pool = tf.nn.max_pool(value=layer1_actv, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
+
+    layer2_conv = tf.nn.conv2d(input=layer1_pool, filter=coefficients['w2'], strides=[1, 1, 1, 1], padding='SAME')
+    layer2_actv = tf.nn.relu(layer2_conv + variables['b2'])
+    layer2_pool = tf.nn.max_pool(value=layer2_actv, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
+
+    layer3_conv = tf.nn.conv2d(input=layer2_pool, filter=coefficients['w3'], strides=[1, 1, 1, 1], padding='SAME')
+    layer3_actv = tf.nn.relu(layer3_conv + variables['b3'])
+    layer3_pool = tf.nn.max_pool(value=layer3_actv, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
+
+    layer_flat = flatten_the_layer(layer3_pool)
+    layer4_fccd = tf.matmul(layer_flat, variables['w4']) + variables['b4']
+    layer4_actv = tf.nn.relu(layer4_fccd)
+    logits = tf.matmul(layer4_actv, variables['w5']) + variables['b5']
+    
+    return logits

@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from __future__ import division  
 from __future__ import print_function    
 import loaddata
+import mymodel
 import sys  
 import os
 import tensorflow as tf
@@ -53,8 +54,9 @@ def main(_):
             fileter_depth3=FLAGS.fileter_depth3,
             flatten_num=FLAGS.flatten_num, class_number=FLAGS.class_number)
 
-        #3. construct the model
-        # logits = model(tf_train_dataset, variables)
+        #3. construct the CNN model
+        logits = lainet(data_placeholder, coefficients)
+
         #4. calculate the softmax cross entropy between the logits and actual labels
         # loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=tf_train_labels))
         #5. use optimizer to calculate the gradients of the loss function 
