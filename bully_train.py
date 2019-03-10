@@ -20,15 +20,30 @@ def main(_):
     print("validation percent is :", FLAGS.validation_size)
     #prepare the training dataset & load data
     classes = os.listdir(FLAGS.train_path)
-    input_data = loaddata.read_dataset(FLAGS.train_path, FLAGS.img_size, classes, FLAGS.validation_size)
+    class_number= len(classes)
+    input_data = loaddata.read_dataset(FLAGS.train_path, FLAGS.img_size, \
+                                      classes, FLAGS.validation_size)
     print("******The traning data have been loaded**********")
-    print("Number of files in Training-set:  \t{}".format(len(input_data.train.labels)))
-    print("Number of files in Validation-set:\t{}".format(len(input_data.valid.labels)))
+    print("Number of files in Training-set:  \t{}" \
+         .format(len(input_data.train.labels)))
+    print("Number of files in Validation-set:\t{}" \
+        .format(len(input_data.valid.labels)))
 
     #create a dataflow graph
     graph = tf.Graph()
-    # with graph.as_default():
-        #1) Transform the training data to  tensorflow type.
+    with graph.as_default():
+        #1) Define some data & labbel placeholder.
+        ## data
+        data_placeholder = tf.placeholder(tf.float32, \
+            shape=[None, FLAGS.img_size,FLAGS.img_size,FLAGS.channel_number], \
+            name='data_placeholder')
+        ## labels
+        label_placeholder = tf.placeholder(tf.float32, \
+            shape=[None, class_number], name='label_placeholder')
+        label_number = tf.argmax(label_placeholder, dimension=1)
+        # label_number = tf.argmax(label_placeholder, axis=1)
+        # print("label_number is :", label_number)
+
         #2) initilize the weight matrices and bias vectors 
         #3. construct the model
         # logits = model(tf_train_dataset, variables)
@@ -55,6 +70,7 @@ if __name__ == "__main__":
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
     flags.DEFINE_integer('epoch_number', 4000, 'Number of epochs to run trainer.')
     flags.DEFINE_integer('batch_size', 32, 'Number of batch size.')
+    flags.DEFINE_integer('channel_number', 3, 'Number of channels.')
     flags.DEFINE_string("train_path", "data_cat/training_data", "path of training data")
 
     tf.app.run()
