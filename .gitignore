@@ -15,7 +15,7 @@ tmp/*
 dataset.py
 predict.py
 train.py
-
+trained_model/*
 #===========python related==========
 # Byte-compiled / optimized / DLL files
 __pycache__/

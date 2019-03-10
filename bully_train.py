@@ -1,9 +1,9 @@
 # Qingbo/Haotian Mar 8,2019
-from __future__ import absolute_import  
-from __future__ import division  
-from __future__ import print_function    
+# from __future__ import absolute_import  
+# from __future__ import division  
+# from __future__ import print_function    
 import loaddata
-import mymodel
+from mymodel import *
 import sys  
 import os
 import tensorflow as tf
@@ -44,22 +44,26 @@ def main(_):
         label_placeholder = tf.placeholder(tf.float32, 
             shape=[None, FLAGS.class_number], name='label_placeholder')
         # label_index = tf.argmax(label_placeholder, dimension=1)
-        label_index = tf.argmax(label_placeholder, axi=1)
+        label_index = tf.argmax(label_placeholder, axis=1)
         # print("label_index is :", label_in)
 
         #2) initilize the weight matrices and bias vectors 
         coefficients = define_coefficients(filter_size=FLAGS.filter_size, 
             img_depth=FLAGS.img_depth, filter_depth1=FLAGS.filter_depth1,
-            fileter_depth2=FLAGS.fileter_depth2,
-            fileter_depth3=FLAGS.fileter_depth3,
-            flatten_num=FLAGS.flatten_num, class_number=FLAGS.class_number)
+            filter_depth2=FLAGS.filter_depth2,
+            filter_depth3=FLAGS.filter_depth3,
+            flatten_num=FLAGS.flatten_num, fc_depth=FLAGS.fc_depth,
+            class_number=FLAGS.class_number)
 
         #3. construct the CNN model
         logits = lainet(data_placeholder, coefficients)
 
         #4. calculate the cross entropy between the logits and actual labels
-        cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits= 
-                        logits, labels=label_placeholder)
+        cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(logits= 
+                        logits, labels=tf.stop_gradient(label_placeholder))
+        #兼容tensorflow1.5之前
+        # cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits= 
+        #                 logits, labels=label_placeholder)
         cost = tf.reduce_mean(cross_entropy)
 
         #5. use optimizer to calculate the gradients of the loss function 
@@ -73,9 +77,9 @@ def main(_):
         correct_pred = tf.equal(class_pred, label_index)
         accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
-    saver = tf.train.Saver()
     with tf.Session(graph=mygraph) as sess:
         sess.run(tf.global_variables_initializer())
+        saver = tf.train.Saver()
         for i in range(FLAGS.iteration_steps):
             train_data_batch, train_label_batch, _, train_cls_batch = \
                 input_data.train.next_batch(FLAGS.batch_size)
@@ -85,17 +89,17 @@ def main(_):
             feed_dict_train = {data_placeholder: train_data_batch,
                             label_placeholder: train_label_batch}
             feed_dict_val = {data_placeholder: val_data_batch,
-                                label_placeholder: val_label_batc
-
+                                label_placeholder: val_label_batch}
             sess.run(optimizer, feed_dict=feed_dict_train)
 
-            if i % int(input_data.train.num_examples/batch_size) == 0: 
+            if i % int(input_data.train.num_examples/FLAGS.batch_size) == 0: 
                 val_loss = sess.run(cost, feed_dict=feed_dict_val)
-                epoch = int(i / int(input_data.train.num_examples/batch_size))    
-                train_acc = session.run(accuracy, feed_dict=feed_dict_train)
-                val_acc = session.run(accuracy, feed_dict=feed_dict_validate)
-                msg = "Training Epoch {0} --- Training Accuracy: {1:>6.1%}, Validation Accuracy: {2:>6.1%},  Validation Loss: {3:.3f}"
-                print(msg.format(epoch + 1, trian_acc, val_acc, val_loss)
+                epoch = int(i / int(input_data.train.num_examples/FLAGS.batch_size))    
+                train_acc = sess.run(accuracy, feed_dict=feed_dict_train)
+                val_acc = sess.run(accuracy, feed_dict=feed_dict_val)
+                msg = ("Training Epoch {0} --- Training Accuracy: {1:>6.1%}," 
+                    "Validation Accuracy: {2:>6.1%},  Validation Loss: {3:.3f}")
+                print(msg.format(epoch + 1, train_acc, val_acc, val_loss))
 
                 #save the result
                 # saver.save(session, 'trained_model/bully-model') 
