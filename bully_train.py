@@ -41,12 +41,18 @@ def main(_):
             name='data_placeholder')
         ## labels
         label_placeholder = tf.placeholder(tf.float32, 
-            shape=[None, class_number], name='label_placeholder')
+            shape=[None, FLAGS.class_number], name='label_placeholder')
         # label_number = tf.argmax(label_placeholder, dimension=1)
         label_number = tf.argmax(label_placeholder, axis=1)
         # print("label_number is :", label_number)
 
         #2) initilize the weight matrices and bias vectors 
+        coefficients = define_coefficients(filter_size=FLAGS.filter_size, 
+            img_depth=FLAGS.img_depth, filter_depth1=FLAGS.filter_depth1,
+            fileter_depth2=FLAGS.fileter_depth2,
+            fileter_depth3=FLAGS.fileter_depth3,
+            flatten_num=FLAGS.flatten_num, class_number=FLAGS.class_number)
+
         #3. construct the model
         # logits = model(tf_train_dataset, variables)
         #4. calculate the softmax cross entropy between the logits and actual labels
