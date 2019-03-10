@@ -1,4 +1,4 @@
-#Bully picture classification 
+# Bully picture classification 
 
 ## Authors
 Qingbo Lai  
@@ -7,7 +7,7 @@ CPSC8810 Deep Learning
 
 ## Note
 This project construct and implement Convolutional Neural Networks (CNNs)
-to classify the bully picture in Python with the TensorFlow framework.
+to classify the bully picture in Python3.6 with the TensorFlow framework 1.12.
 
 ## config
 
