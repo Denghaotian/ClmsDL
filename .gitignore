@@ -1,0 +1,16 @@
+# sql files
+.sql
+
+# Apple-specific folder description
+.DS_Store
+
+#picture
+.jpg
+.png
+.jpeg
+data_cat/*
+
+#tmp file
+dataset.py
+predict.py
+train.py
