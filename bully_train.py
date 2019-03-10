@@ -20,13 +20,15 @@ def main(_):
     print("validation percent is :", FLAGS.validation_size)
     #prepare the training dataset & load data
     classes = os.listdir(FLAGS.train_path)
-    class_number= len(classes)
-    input_data = loaddata.read_dataset(FLAGS.train_path, FLAGS.img_size, \
+    flags.DEFINE_integer('class_number', len(classes), 'classes number.')
+    # class_number= len(classes)
+    print("class number is:", FLAGS.class_number)
+    input_data = loaddata.read_dataset(FLAGS.train_path, FLAGS.img_size, 
                                       classes, FLAGS.validation_size)
     print("******The traning data have been loaded**********")
-    print("Number of files in Training-set:  \t{}" \
+    print("Number of files in Training-set:  \t{}" 
          .format(len(input_data.train.labels)))
-    print("Number of files in Validation-set:\t{}" \
+    print("Number of files in Validation-set:\t{}" 
         .format(len(input_data.valid.labels)))
 
     #create a dataflow graph
@@ -34,14 +36,14 @@ def main(_):
     with graph.as_default():
         #1) Define some data & labbel placeholder.
         ## data
-        data_placeholder = tf.placeholder(tf.float32, \
-            shape=[None, FLAGS.img_size,FLAGS.img_size,FLAGS.channel_number], \
+        data_placeholder = tf.placeholder(tf.float32, 
+            shape=[None, FLAGS.img_size,FLAGS.img_size,FLAGS.img_depth], 
             name='data_placeholder')
         ## labels
-        label_placeholder = tf.placeholder(tf.float32, \
+        label_placeholder = tf.placeholder(tf.float32, 
             shape=[None, class_number], name='label_placeholder')
-        label_number = tf.argmax(label_placeholder, dimension=1)
-        # label_number = tf.argmax(label_placeholder, axis=1)
+        # label_number = tf.argmax(label_placeholder, dimension=1)
+        label_number = tf.argmax(label_placeholder, axis=1)
         # print("label_number is :", label_number)
 
         #2) initilize the weight matrices and bias vectors 
@@ -70,7 +72,20 @@ if __name__ == "__main__":
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
     flags.DEFINE_integer('epoch_number', 4000, 'Number of epochs to run trainer.')
     flags.DEFINE_integer('batch_size', 32, 'Number of batch size.')
-    flags.DEFINE_integer('channel_number', 3, 'Number of channels.')
     flags.DEFINE_string("train_path", "data_cat/training_data", "path of training data")
+
+    
+    flags.DEFINE_integer('img_depth', 3, 'Number of channels.')
+    flags.DEFINE_integer('filter_size', 3, 'filter size.')
+    flags.DEFINE_integer('filter_depth1', 32, 'filter depth for conv1.')
+    flags.DEFINE_integer('filter_depth2', 32, 'filter depth for conv2.')
+    flags.DEFINE_integer('filter_depth3', 64, 'filter depth for conv3.')
+    flags.DEFINE_integer('pooling_num', 3, 'Number of pooling')
+    flags.DEFINE_integer('flatten_num', pow(FLAGS.img_size//
+        pow(2,FLAGS.pooling_num),2)*FLAGS.filter_depth3, 
+        'Number of features after flattern')
+    print("flatten_nub is", FLAGS.flatten_num)
+    flags.DEFINE_integer('fc_depth', 128, 'fully connected layer depth.')
+
 
     tf.app.run()
