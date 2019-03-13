@@ -13,16 +13,16 @@ from loaddata import load_dataset
 def main(_):
     #=============Load label====================
     #Load labels
-    label_lst=[]
-    rs = os.path.exists(FLAGS.output_labels)
-    if rs==True:
-        file_handler =open(FLAGS.output_labels,mode='r')
-        contents = file_handler.readlines()
-        for name in contents:
-            name = name.strip('\n')
-            label_lst.append(name)
-        file_handler.close()
-    print(label_lst)
+    # label_lst=[]
+    # rs = os.path.exists(FLAGS.output_labels)
+    # if rs==True:
+    #     file_handler =open(FLAGS.output_labels,mode='r')
+    #     contents = file_handler.readlines()
+    #     for name in contents:
+    #         name = name.strip('\n')
+    #         label_lst.append(name)
+    #     file_handler.close()
+    # print(label_lst)
 
     #Prepare input data
     classes = os.listdir(FLAGS.test_path )
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     FLAGS = flags.FLAGS
     flags.DEFINE_string("test_path", "data_bully/testing_data", "path of testing data")
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
-    flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
+    # flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
     flags.DEFINE_string("trained_model", "trained_model/bully_action.meta", "meta graph")
     flags.DEFINE_string("checkpoint", "./trained_model/", "checkpoint")
 
