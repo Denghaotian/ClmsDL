@@ -105,7 +105,7 @@ def load_dataset(train_path, image_size, classes):
         #======= calculat the number of files=========
         path1 = os.path.join(train_path, fields)
         print(path1)
-        print (len([name for name in os.listdir(path1) if os.path.isfile(os.path.join(path1, name))]))
+        print ("the number of ", fields, "is ", len([name for name in os.listdir(path1) if os.path.isfile(os.path.join(path1, name))]))
         #======= calculat the number of files=========
         files = glob.glob(path)
         for fl in files:
