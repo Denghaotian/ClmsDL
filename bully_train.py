@@ -153,7 +153,7 @@ if __name__ == "__main__":
     #set some superparameters which can reset befor run
     flags = tf.app.flags
     FLAGS = flags.FLAGS
-    flags.DEFINE_float('learning_rate', 0.01, 'Initial learning rate.')
+    flags.DEFINE_float('learning_rate', 0.5, 'Initial learning rate.')
     # ?% of the data will be used for validation
     flags.DEFINE_float('validation_size', 0.2, 'validation size.')
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
