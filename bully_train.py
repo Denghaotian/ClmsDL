@@ -1,7 +1,5 @@
 # Qingbo/Haotian Mar 8,2019
-# from __future__ import absolute_import  
-# from __future__ import division  
-# from __future__ import print_function    
+
 import loaddata
 from mymodel import *
 import sys  
@@ -24,17 +22,17 @@ def main(_):
     classes = os.listdir(FLAGS.train_path)
     # print(classes)
     
-    #save classes/labels
-    file_label =open(FLAGS.output_labels,mode='w')
-    for field in classes:
-        # print(field)
-        file_label.write(field)
-        file_label.write('\n')
-        file_label.flush()
-    file_label.close()
-    flags.DEFINE_integer('class_number', len(classes), 'classes number.')
-    # class_number= len(classes)
-    print("class number is:", FLAGS.class_number)
+    # #save classes/labels
+    # file_label =open(FLAGS.output_labels,mode='w')
+    # for field in classes:
+    #     # print(field)
+    #     file_label.write(field)
+    #     file_label.write('\n')
+    #     file_label.flush()
+    # file_label.close()
+    # flags.DEFINE_integer('class_number', len(classes), 'classes number.')
+    # # class_number= len(classes)
+    # print("class number is:", FLAGS.class_number)
 
     # label_lst=[]
     # rs = os.path.exists(FLAGS.output_labels)
@@ -126,8 +124,7 @@ def main(_):
                 print(msg.format(epoch + 1, train_acc, val_acc, val_loss))
 
                 #save the result
-                # saver.save(sess, 'trained_model/bully-model') 
-                saver.save(sess, 'trained_model/example-model') 
+                saver.save(sess, FLAGS.saved_file) 
 
 
 if __name__ == "__main__":
@@ -142,6 +139,7 @@ if __name__ == "__main__":
     flags.DEFINE_integer('batch_size', 32, 'Number of batch size.')
     flags.DEFINE_string("train_path", "data_cat/training_data", "path of training data")
     flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
+    flags.DEFINE_string("saved_file", "trained_model/bully_action", "save trained model")
 
     
     flags.DEFINE_integer('img_depth', 3, 'Number of channels.')
