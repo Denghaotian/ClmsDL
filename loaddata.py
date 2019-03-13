@@ -89,9 +89,11 @@ def load_dataset(train_path, image_size, classes):
     labels = []
     img_names = []
     cls = []
+    categories=[]
 
     print('=======Ready to load the pictures======')
     for fields in classes:   
+        categories.append(fields)
         index = classes.index(fields)
         print('Now ready to read [{}] category (Index: {})'.format(fields, index))
         path = os.path.join(train_path, fields, '*g')
@@ -113,4 +115,4 @@ def load_dataset(train_path, image_size, classes):
     img_names = np.array(img_names)
     cls = np.array(cls)
 
-    return images, labels, img_names, cls
+    return images, labels, img_names, cls, categories

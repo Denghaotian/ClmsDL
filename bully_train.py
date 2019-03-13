@@ -8,6 +8,7 @@ import sys
 import os
 import tensorflow as tf
 from tensorflow.python.platform import flags  
+# from tensorflow.python.platform import gfile
 
 import time
 from datetime import timedelta
@@ -19,14 +20,37 @@ import numpy as np
 def main(_):
     print("train_path is :", FLAGS.train_path)
     print("validation percent is :", FLAGS.validation_size)
-    #prepare the training dataset & load data
+    #*prepare the training dataset & load data
     classes = os.listdir(FLAGS.train_path)
+    # print(classes)
+    
+    #save classes/labels
+    file_label =open(FLAGS.output_labels,mode='w')
+    for field in classes:
+        # print(field)
+        file_label.write(field)
+        file_label.write('\n')
+        file_label.flush()
+    file_label.close()
     flags.DEFINE_integer('class_number', len(classes), 'classes number.')
     # class_number= len(classes)
     print("class number is:", FLAGS.class_number)
+
+    # label_lst=[]
+    # rs = os.path.exists(FLAGS.output_labels)
+    # if rs==True:
+    #     file_handler =open(FLAGS.output_labels,mode='r')
+    #     contents = file_handler.readlines()
+    #     for name in contents:
+    #         name = name.strip('\n')
+    #         label_lst.append(name)
+    #     file_handler.close()
+    # print(label_lst)
+ 
     input_data = loaddata.read_dataset(FLAGS.train_path, FLAGS.img_size, 
                                       classes, FLAGS.validation_size)
     print("******The traning data have been loaded**********")
+    # print(input_data.train.cls)
     print("Number of files in Training-set:  \t{}" 
          .format(len(input_data.train.labels)))
     print("Number of files in Validation-set:\t{}" 
@@ -71,7 +95,7 @@ def main(_):
                     .minimize(cost)
 
         # Predictions for the training, validation, and test data.
-        labels_pred = tf.nn.softmax(logits,name='y_pred')
+        labels_pred = tf.nn.softmax(logits,name='labels_pred')
         class_pred= tf.argmax(labels_pred, axis=1)
         #class_pred= tf.argmax(labels_pred, dimension=1)
         correct_pred = tf.equal(class_pred, label_index)
@@ -102,8 +126,8 @@ def main(_):
                 print(msg.format(epoch + 1, train_acc, val_acc, val_loss))
 
                 #save the result
-                # saver.save(session, 'trained_model/bully-model') 
-                saver.save(sess, 'trained_model/dogs-cats-model') 
+                # saver.save(sess, 'trained_model/bully-model') 
+                saver.save(sess, 'trained_model/example-model') 
 
 
 if __name__ == "__main__":
@@ -117,6 +141,7 @@ if __name__ == "__main__":
     flags.DEFINE_integer('iteration_steps', 4000, 'Number of epochs to run trainer.')
     flags.DEFINE_integer('batch_size', 32, 'Number of batch size.')
     flags.DEFINE_string("train_path", "data_cat/training_data", "path of training data")
+    flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
 
     
     flags.DEFINE_integer('img_depth', 3, 'Number of channels.')
