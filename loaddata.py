@@ -102,6 +102,11 @@ def load_dataset(train_path, image_size, classes):
         index = classes.index(fields)
         print('Now ready to read [{}] category (Index: {})'.format(fields, index))
         path = os.path.join(train_path, fields, '*g')
+        #======= calculat the number of files=========
+        path1 = os.path.join(train_path, fields)
+        print(path1)
+        print (len([name for name in os.listdir(path1) if os.path.isfile(os.path.join(path1, name))]))
+        #======= calculat the number of files=========
         files = glob.glob(path)
         for fl in files:
             image = cv2.imread(fl)
