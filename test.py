@@ -29,8 +29,8 @@ def main(_):
     num_classes = len(classes)
     print("number classes is ",num_classes)
 
-    # We shall load all the training and validation images and labels into memory using openCV and use that during training
-    x_batch, y_true_batch, _, cls_batch, categories = load_dataset(FLAGS.test_path, FLAGS.img_size, classes)
+    # load all the training and validation images and labels into memory using openCV and use that during training
+    test_data, test_label, _, cls_batch, categories = load_dataset(FLAGS.test_path, FLAGS.img_size, classes)
 
     with tf.Session() as sess
         ## Let us restore the saved model 
@@ -49,6 +49,17 @@ def main(_):
         ## Let's feed the images to the input placeholders
         data_placeholder= graph.get_tensor_by_name("data_placeholder:0") 
         label_placeholder = graph.get_tensor_by_name("label_placeholder:0") 
+
+        feed_dict_testing = {data_placeholderx: test_data, label_placeholder: test_label}
+        labels_pred_cls = tf.argmax(labels_pred, dimension=1)
+        labels_true_cls = tf.argmax(test_label, dimension=1)
+        result=sess.run(y_pred, feed_dict=feed_dict_testing)
+        print(result)
+        correct_prediction = tf.equal(labels_pred_cls, labels_true_cls)
+        accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+        acc = sess.run(accuracy, feed_dict=feed_dict_testing)
+        msg = "Validation Accuracy: {0:>6.1%}"
+        print(msg.format(acc))
 
 
 if __name__ == "__main__":
