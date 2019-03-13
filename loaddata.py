@@ -13,7 +13,7 @@ class DataSet(object):
     self._labels = labels
     self._img_names = img_names
     self._cls = cls
-    self._categories = categories
+    # self._categories = categories
     self._epochs_done = 0
     self._index_in_epoch = 0
 

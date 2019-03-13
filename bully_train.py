@@ -1,7 +1,7 @@
 # Qingbo/Haotian Mar 8,2019
 
 import loaddata
-from mymodel import *
+from my_model import laimodel, vgg16model
 import sys  
 import os
 import tensorflow as tf
@@ -21,6 +21,9 @@ def main(_):
     #*prepare the training dataset & load data
     classes = os.listdir(FLAGS.train_path)
     # print(classes)
+    flags.DEFINE_integer('class_number', len(classes), 'classes number.')
+    # class_number= len(classes)
+    print("class number is:", FLAGS.class_number)
     
     # #save classes/labels
     # file_label =open(FLAGS.output_labels,mode='w')
@@ -30,9 +33,6 @@ def main(_):
     #     file_label.write('\n')
     #     file_label.flush()
     # file_label.close()
-    # flags.DEFINE_integer('class_number', len(classes), 'classes number.')
-    # # class_number= len(classes)
-    # print("class number is:", FLAGS.class_number)
 
     # label_lst=[]
     # rs = os.path.exists(FLAGS.output_labels)
@@ -70,15 +70,33 @@ def main(_):
         # print("label_index is :", label_in)
 
         #2) initilize the weight matrices and bias vectors 
-        coefficients = define_coefficients(filter_size=FLAGS.filter_size, 
+        lainet_coefficients = laimodel.define_coefficients(filter_size=FLAGS.filter_size, 
             img_depth=FLAGS.img_depth, filter_depth1=FLAGS.filter_depth1,
             filter_depth2=FLAGS.filter_depth2,
             filter_depth3=FLAGS.filter_depth3,
             flatten_num=FLAGS.flatten_num, fc_depth=FLAGS.fc_depth,
             class_number=FLAGS.class_number)
 
+        vgg_coefficients = vgg16model.vgg16_coefficients(
+            vgg_filter_size1=FLAGS.vgg_filter_size1,
+            vgg_filter_size2=FLAGS.vgg_filter_size2, 
+            vgg_filter_size3=FLAGS.vgg_filter_size3,
+            vgg_filter_size4=FLAGS.vgg_filter_size4, 
+            vgg_filter_depth1=FLAGS.vgg_filter_depth1, 
+            vgg_filter_depth2=FLAGS.vgg_filter_depth2, 
+            vgg_filter_depth3=FLAGS.vgg_filter_depth3, 
+            vgg_filter_depth4=FLAGS.vgg_filter_depth4, 
+            vgg_num_hidden1=4096 , vgg_num_hidden2=1000,
+            img_size=FLAGS.img_size, img_depth=FLAGS.img_depth , 
+            class_number=FLAGS.class_number)
+
+        # coefficients =lainet_coefficients 
+        coefficients =vgg_coefficients 
+
         #3. construct the CNN model
-        logits = lainet(data_placeholder, coefficients)
+        # train_net=laimodel.lainet
+        train_net=vgg16model.vgg16net
+        logits = train_net(data_placeholder, coefficients)
 
         #4. calculate the cross entropy between the logits and actual labels
         cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(logits= 
@@ -119,9 +137,11 @@ def main(_):
                 epoch = int(i / int(input_data.train.num_examples/FLAGS.batch_size))    
                 train_acc = sess.run(accuracy, feed_dict=feed_dict_train)
                 val_acc = sess.run(accuracy, feed_dict=feed_dict_val)
-                msg = ("Epoch/Step {0}/{1} --- Train Acc: {2:>6.1%}," 
-                    "Val Acc: {3:>6.1%},  Val Loss: {4:.3f}")
+                msg = ("Epoch/Step {0}/{1} --- Train Acc:{2:>6.1%}" 
+                    "||Val Acc:{3:>6.1%}  ||Val Loss:{4:.3f}")
                 print(msg.format(epoch + 1, i, train_acc, val_acc, val_loss))
+                if val_acc>95:
+                    break
 
                 #save the result
                 saver.save(sess, FLAGS.saved_file) 
@@ -135,7 +155,7 @@ if __name__ == "__main__":
     # ?% of the data will be used for validation
     flags.DEFINE_float('validation_size', 0.2, 'validation size.')
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
-    flags.DEFINE_integer('iteration_steps', 4000, 'Number of epochs to run trainer.')
+    flags.DEFINE_integer('iteration_steps', 20000, 'Number of epochs to run trainer.')
     flags.DEFINE_integer('batch_size', 32, 'Number of batch size.')
     flags.DEFINE_string("train_path", "data_cat/training_data", "path of training data")
     flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
@@ -151,7 +171,18 @@ if __name__ == "__main__":
     flags.DEFINE_integer('flatten_num', pow(FLAGS.img_size//
         pow(2,FLAGS.pooling_num),2)*FLAGS.filter_depth3, 
         'Number of features after flattern')
-    print("flatten_nub is", FLAGS.flatten_num)
+    print("flatten_num is", FLAGS.flatten_num)
     flags.DEFINE_integer('fc_depth', 128, 'fully connected layer depth.')
+
+    flags.DEFINE_integer('vgg_filter_size1', 3, 'filter size.')
+    flags.DEFINE_integer('vgg_filter_size2', 3, 'filter size.')
+    flags.DEFINE_integer('vgg_filter_size3', 3, 'filter size.')
+    flags.DEFINE_integer('vgg_filter_size4', 3, 'filter size.')
+    flags.DEFINE_integer('vgg_filter_depth1', 64, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg_filter_depth2', 128, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg_filter_depth3', 256, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg_filter_depth4', 512, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg_num_hidden1', 4096, 'filter depth for conv3.')
+    flags.DEFINE_integer('vgg_num_hidden2', 1000, 'filter depth for conv3.')
 
     tf.app.run()

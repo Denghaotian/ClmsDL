@@ -32,7 +32,7 @@ def main(_):
     # load all the training and validation images and labels into memory using openCV and use that during training
     test_data, test_label, _, cls_batch, categories = load_dataset(FLAGS.test_path, FLAGS.img_size, classes)
 
-    with tf.Session() as sess
+    with tf.Session() as sess:
         ## Let us restore the saved model 
         # Step-1: Recreate the network graph. At this step only graph is created.
         saver = tf.train.import_meta_graph(FLAGS.trained_model)
@@ -51,7 +51,7 @@ def main(_):
         label_placeholder = graph.get_tensor_by_name("label_placeholder:0") 
 
         ### Creating the feed_dict that is required to be fed to calculate y_pred 
-        feed_dict_testing = {data_placeholderx: test_data, label_placeholder: test_label}
+        feed_dict_testing = {data_placeholder: test_data, label_placeholder: test_label}
         labels_pred_cls = tf.argmax(labels_pred, axis=1)
         labels_true_cls = tf.argmax(test_label, axis=1)
         #================for debug==============
