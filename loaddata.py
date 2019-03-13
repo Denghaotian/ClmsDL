@@ -13,6 +13,7 @@ class DataSet(object):
     self._labels = labels
     self._img_names = img_names
     self._cls = cls
+    self._categories = categories
     self._epochs_done = 0
     self._index_in_epoch = 0
 
@@ -31,6 +32,10 @@ class DataSet(object):
   @property
   def cls(self):
     return self._cls
+
+  # @property
+  # def categories(self):
+  #   return self._categories
 
   @property
   def num_examples(self):
@@ -62,7 +67,7 @@ def read_dataset(train_path, image_size, classes, validation_size):
     pass
   data_sets = DataSets()
 
-  images, labels, img_names, cls = load_dataset(train_path, image_size, classes)
+  images, labels, img_names, cls, _ = load_dataset(train_path, image_size, classes)
   images, labels, img_names, cls = shuffle(images, labels, img_names, cls)  
 
   if isinstance(validation_size, float):
