@@ -144,6 +144,8 @@ def main(_):
                     break
 
                 #save the result
+                if not os.path.exists(FLAGS.saved_dir):
+                    os.makedirs(FLAGS.saved_dir)
                 saver.save(sess, FLAGS.saved_file) 
 
 
@@ -157,8 +159,9 @@ if __name__ == "__main__":
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
     flags.DEFINE_integer('iteration_steps', 20000, 'Number of epochs to run trainer.')
     flags.DEFINE_integer('batch_size', 32, 'Number of batch size.')
-    flags.DEFINE_string("train_path", "data_cat/training_data", "path of training data")
+    flags.DEFINE_string("train_path", "data_bully/training_data", "path of training data")
     flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
+    flags.DEFINE_string("saved_dir", "trained_model", "save trained model")
     flags.DEFINE_string("saved_file", "trained_model/bully_action", "save trained model")
 
     

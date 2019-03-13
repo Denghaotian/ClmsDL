@@ -72,7 +72,7 @@ if __name__ == "__main__":
     #set some superparameters which can reset befor run
     flags = tf.app.flags
     FLAGS = flags.FLAGS
-    flags.DEFINE_string("test_path", "data_cat/testing_data", "path of testing data")
+    flags.DEFINE_string("test_path", "data_bully/testing_data", "path of testing data")
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
     flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
     flags.DEFINE_string("trained_model", "trained_model/bully_action.meta", "meta graph")
