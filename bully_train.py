@@ -119,9 +119,9 @@ def main(_):
                 epoch = int(i / int(input_data.train.num_examples/FLAGS.batch_size))    
                 train_acc = sess.run(accuracy, feed_dict=feed_dict_train)
                 val_acc = sess.run(accuracy, feed_dict=feed_dict_val)
-                msg = ("Training Epoch {0} --- Training Accuracy: {1:>6.1%}," 
-                    "Validation Accuracy: {2:>6.1%},  Validation Loss: {3:.3f}")
-                print(msg.format(epoch + 1, train_acc, val_acc, val_loss))
+                msg = ("Epoch/Step {0}/{1} --- Train Acc: {2:>6.1%}," 
+                    "Val Acc: {3:>6.1%},  Val Loss: {4:.3f}")
+                print(msg.format(epoch + 1, i, train_acc, val_acc, val_loss))
 
                 #save the result
                 saver.save(sess, FLAGS.saved_file) 

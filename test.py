@@ -52,7 +52,6 @@ def main(_):
 
         ### Creating the feed_dict that is required to be fed to calculate y_pred 
         feed_dict_testing = {data_placeholderx: test_data, label_placeholder: test_label}
-        #feed_dict_testing = {x: x_batch, y_true: y_test_images}
         labels_pred_cls = tf.argmax(labels_pred, axis=1)
         labels_true_cls = tf.argmax(test_label, axis=1)
         #================for debug==============
