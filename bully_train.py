@@ -101,7 +101,7 @@ def main(_):
         #4. calculate the cross entropy between the logits and actual labels
         cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(logits= 
                         logits, labels=tf.stop_gradient(label_placeholder))
-        #兼容tensorflow1.5之前
+        #tensorflow1.5 compatible
         # cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits= 
         #                 logits, labels=label_placeholder)
         cost = tf.reduce_mean(cross_entropy)
