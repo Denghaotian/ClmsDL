@@ -9,6 +9,7 @@
 .png
 .jpeg
 data_cat/*
+data_bully/*
 
 #tmp file
 tmp/*
@@ -17,6 +18,7 @@ dataset.py
 train.py
 trained_model/*
 trained_model_cat_1/*
+trained_model_cat20199315/*
 #===========python related==========
 # Byte-compiled / optimized / DLL files
 __pycache__/
