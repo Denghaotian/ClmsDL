@@ -1,7 +1,7 @@
 # Qingbo/Haotian Mar 8,2019
 
 import loaddata
-from my_model import laimodel, vgg16model
+from my_model import laimodel, vgg16model, vgg17model
 import sys  
 import os
 import tensorflow as tf
@@ -79,7 +79,7 @@ def main(_):
             flatten_num=FLAGS.flatten_num, fc_depth=FLAGS.fc_depth,
             class_number=FLAGS.class_number)
 
-        vgg_coefficients = vgg16model.vgg16_coefficients(
+        vgg16_coefficients = vgg16model.vgg16_coefficients(
             vgg_filter_size1=FLAGS.vgg_filter_size1,
             vgg_filter_size2=FLAGS.vgg_filter_size2, 
             vgg_filter_size3=FLAGS.vgg_filter_size3,
@@ -88,16 +88,44 @@ def main(_):
             vgg_filter_depth2=FLAGS.vgg_filter_depth2, 
             vgg_filter_depth3=FLAGS.vgg_filter_depth3, 
             vgg_filter_depth4=FLAGS.vgg_filter_depth4, 
-            vgg_num_hidden1=4096 , vgg_num_hidden2=1000,
-            img_size=FLAGS.img_size, img_depth=FLAGS.img_depth , 
+            vgg_num_hidden1=FLAGS.vgg_num_hidden1,
+            vgg_num_hidden2=FLAGS.vgg_num_hidden2,
+            img_size=FLAGS.img_size, 
+            img_depth=FLAGS.img_depth , 
+            class_number=FLAGS.class_number)
+
+        vgg17_coefficients = vgg17model.vgg17_coefficients(
+            vgg_filter_size1=FLAGS.vgg17_filter_size1,
+            vgg_filter_size2=FLAGS.vgg17_filter_size2, 
+            vgg_filter_size3=FLAGS.vgg17_filter_size3,
+            vgg_filter_size4=FLAGS.vgg17_filter_size4, 
+            vgg_filter_depth1=FLAGS.vgg17_filter_depth1, 
+            vgg_filter_depth2=FLAGS.vgg17_filter_depth2, 
+            vgg_filter_depth3=FLAGS.vgg17_filter_depth3, 
+            vgg_filter_depth4=FLAGS.vgg17_filter_depth4, 
+            vgg_filter_depth5=FLAGS.vgg17_filter_depth5, 
+            vgg_filter_depth6=FLAGS.vgg17_filter_depth6, 
+            vgg_filter_depth7=FLAGS.vgg17_filter_depth7, 
+            vgg_filter_depth8=FLAGS.vgg17_filter_depth8, 
+            vgg_filter_depth9=FLAGS.vgg17_filter_depth9, 
+            vgg_filter_depth10=FLAGS.vgg17_filter_depth10, 
+            vgg_filter_depth11=FLAGS.vgg17_filter_depth11, 
+            vgg_filter_depth12=FLAGS.vgg17_filter_depth12, 
+            vgg_filter_depth13=FLAGS.vgg17_filter_depth13, 
+            vgg_num_hidden1=FLAGS.vgg17_num_hidden1,
+            vgg_num_hidden2=FLAGS.vgg17_num_hidden2,
+            img_size=FLAGS.img_size, 
+            img_depth=FLAGS.img_depth , 
             class_number=FLAGS.class_number)
 
         # coefficients =lainet_coefficients 
-        coefficients =vgg_coefficients 
+       # coefficients =vgg16_coefficients 
+        coefficients =vgg17_coefficients 
 
         #3. construct the CNN model
         # train_net=laimodel.lainet
-        train_net=vgg16model.vgg16net
+        #train_net=vgg16model.vgg16net
+        train_net=vgg17model.vgg17net
         logits = train_net(data_placeholder, coefficients)
 
         #4. calculate the cross entropy between the logits and actual labels
@@ -189,5 +217,25 @@ if __name__ == "__main__":
     flags.DEFINE_integer('vgg_filter_depth4', 512, 'filter depth for conv1.')
     flags.DEFINE_integer('vgg_num_hidden1', 4096, 'filter depth for conv3.')
     flags.DEFINE_integer('vgg_num_hidden2', 4096, 'filter depth for conv3.')
+
+    flags.DEFINE_integer('vgg17_filter_size1', 3, 'filter size.')
+    flags.DEFINE_integer('vgg17_filter_size2', 3, 'filter size.')
+    flags.DEFINE_integer('vgg17_filter_size3', 3, 'filter size.')
+    flags.DEFINE_integer('vgg17_filter_size4', 3, 'filter size.')
+    flags.DEFINE_integer('vgg17_filter_depth1', 64, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth2', 64, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth3', 128, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth4', 128, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth5', 256, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth6', 256, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth7', 256, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth8', 512, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth9', 512, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth10', 512, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth11', 512, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth12', 512, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_filter_depth13', 512, 'filter depth for conv1.')
+    flags.DEFINE_integer('vgg17_num_hidden1', 4096, 'filter depth for conv3.')
+    flags.DEFINE_integer('vgg17_num_hidden2', 4096, 'filter depth for conv3.')
 
     tf.app.run()
