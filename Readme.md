@@ -31,6 +31,7 @@ nonbullying category.
 
 ## Usages
 Default location of training data : data_bully/training_data
+
 Default location of testing data: data_bully/testing_data
 ### Train
 python bully_train.py --train_path path-to-training-dataset
