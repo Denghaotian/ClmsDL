@@ -1,21 +1,50 @@
 # Bully picture classification 
+CPSC8810 Deep Learning Term Project
 
 ## Authors
-Qingbo Lai  
-Haotian Deng
+Qingbo Lai   
 
-CPSC8810 Deep Learning
+qingbol@clemson.edu 
+
+Haotian Deng 
+
+hdeng@clemson.edu
 
 ## Note
 This project construct and implement Convolutional Neural Networks (CNNs)
-to classify the bully picture in Python3.6 with the TensorFlow framework 1.12.
+to classify the bully picture. All codes were implementated and tested on 
+Palmetto www.palmetto.clemson.edu
 
-## config
+## Prerequisites
+Python3.6; TensorFlow framework 1.12
 
-## models
+## Network Structure
+We have two different networks structure. one is simple three layers CNN 
+model with two fully connected layers which written by ourselves, the 
+another model is based VGG16 with some changes by ourselves.
 
-## api
+## Training Strategy
+We used ten categories images to train model. Nine categories of bully 
+images which are laughing, pullinghair, quarrel, slapping, punching, 
+stabbing, gossiping, strangle and isolation. The rest of images are 
+nonbullying category. 
+
+## Usages
 
 ## Testing
+You can test model use two methods.
 
-## Example Run of Code
+Testing one image 
+
+Command line:
+
+Testing 10 groups of classified images by the tagged file directory
+like laughing, pullinghair, quarrel, slapping, punching, stabbing, 
+gossiping, strangle, isolation and nonbullying. The output will be
+the accuracy of testing files.
+
+Command line:
+
+Best Testing accuracy result is 
+
+## Reference
