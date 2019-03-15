@@ -34,28 +34,22 @@ Default location of training data : data_bully/training_data
 
 Default location of testing data: data_bully/testing_data
 ### Train
-python bully_train.py --train_path path-to-training-dataset
+
+Command line: python bully_train.py --train_path "path-to-training-dataset"
+
 ### predict a single image
-python predict.py --img_file path-to-img/xxx.jpg
+
+python predict.py --img_file "path-to-img/xxx.jpg"
 ### test the accuracy for testing dataset 
-python test.py --test_path path-to-testing-dataset`
-
-
-
-## Testing
-You can test model use two methods.
-
-Testing one image 
-
-Command line:
-
 Testing 10 groups of classified images by the tagged file directory
 like laughing, pullinghair, quarrel, slapping, punching, stabbing, 
 gossiping, strangle, isolation and nonbullying. The output will be
 the accuracy of testing files.
 
-Command line:
 
-Best Testing accuracy result is 
+Command line: python test.py --test_path "path-to-testing-datase"
+
+
+
 
 ## Reference
