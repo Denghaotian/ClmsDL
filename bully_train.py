@@ -27,14 +27,14 @@ def main(_):
     # class_number= len(classes)
     print("class number is:", FLAGS.class_number)
     
-    # #save classes/labels
-    # file_label =open(FLAGS.output_labels,mode='w')
-    # for field in classes:
-    #     # print(field)
-    #     file_label.write(field)
-    #     file_label.write('\n')
-    #     file_label.flush()
-    # file_label.close()
+    #save classes/labels
+    file_label =open(FLAGS.output_labels,mode='w')
+    for field in classes:
+        # print(field)
+        file_label.write(field)
+        file_label.write('\n')
+        file_label.flush()
+    file_label.close()
 
     # label_lst=[]
     # rs = os.path.exists(FLAGS.output_labels)

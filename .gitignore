@@ -16,7 +16,9 @@ tmp/*
 dataset.py
 #predict.py
 train.py
-trained_model/*
+#trained_model/*
+trained_model/bully_action.data*
+trained_model/*.data*
 trained_model_cat_1/*
 trained_model_cat20199315/*
 #===========python related==========

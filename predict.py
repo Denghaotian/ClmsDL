@@ -11,24 +11,25 @@ from tensorflow.python.platform import flags
 
 def main(_):
     #Load labels
-    # label_lst=[]
-    # # rs = os.path.exists(FLAGS.output_labels)
+    label_lst=[]
+    rs = os.path.exists(FLAGS.output_labels)
     # rs = os.path.exists("trained_model/output_labels.txt")
-    # if rs==True:
-    #     file_handler =open("trained_model/output_labels.txt",mode='r')
-    #     contents = file_handler.readlines()
-    #     for name in contents:
-    #         name = name.strip('\n')
-    #         label_lst.append(name)
-    #     file_handler.close()
+    if rs==True:
+        file_handler =open(FLAGS.output_labels,mode='r')
+        contents = file_handler.readlines()
+        for name in contents:
+            name = name.strip('\n')
+            label_lst.append(name)
+        file_handler.close()
+    num_label=len(label_lst)
     # print(label_lst)
 
     #==============================================================
     # Prepare input data
-    classes = os.listdir(FLAGS.train_path)
-    classes.sort()
+    # classes = os.listdir(FLAGS.train_path)
+    # classes.sort()
     # print(classes)
-    num_classes = len(classes)
+    # num_classes = len(classes)
     # print("number classes is ",num_classes)
 
     # # We shall load all the training and validation images and labels into memory using openCV and use that during training
@@ -68,8 +69,9 @@ def main(_):
         ## Let's feed the images to the input placeholders
         data_placeholder= graph.get_tensor_by_name("data_placeholder:0") 
         label_placeholder = graph.get_tensor_by_name("label_placeholder:0") 
-        # y_test_images = np.zeros((1, len(os.listdir('data_bully/train_data')))) 
-        label_false = np.zeros((1, len(classes))) 
+
+        # label_false = np.zeros((1, num_classes)) 
+        label_false = np.zeros((1, num_label)) 
 
         ### Creating the feed_dict that is required to be fed to calculate y_pred 
         feed_dict_testing = {data_placeholder: input_img, label_placeholder: label_false}
@@ -81,7 +83,8 @@ def main(_):
         label_index=sess.run(class_pred)
         # print(label_index)
         # print("This image belongs to category: " classes[label_index[0]])
-        print(classes[label_index[0]])
+        print(label_lst[label_index[0]])
+        # print(classes[label_index[0]])
 
     # # img = Image.open("data_cat/testing_data/1018.jpg")
     # plt.figure(figsize=(6,4))
@@ -108,7 +111,7 @@ if __name__ == "__main__":
     flags.DEFINE_string("img_file", "data_bully/testing_data/gossiping/gossiping0001.jpg", "path of testing data")
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
     flags.DEFINE_integer('num_channels', 3, 'image channel number.')
-    # flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
+    flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
     flags.DEFINE_string("trained_model", "trained_model/bully_action.meta", "meta graph")
     flags.DEFINE_string("checkpoint", "./trained_model/", "checkpoint")
 
