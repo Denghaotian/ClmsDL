@@ -118,7 +118,7 @@ def vgg17net(input_data, coefficients):
     layer13_pool = tf.nn.max_pool(layer13_actv, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
     
     flat_layer  = flatten_the_layer(layer13_pool)
-    flatten_num2 = layer_flat.get_shape()[1:4].num_elements()
+    flatten_num2 = flat_layer.get_shape()[1:4].num_elements()
     print("flatten_num2 is: ", flatten_num2)
 
     layer14_fccd = tf.matmul(flat_layer, coefficients['w14']) + coefficients['b14']
