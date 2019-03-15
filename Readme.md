@@ -2,8 +2,13 @@
 CPSC8810 Deep Learning Term Project
 
 ## Authors
-Qingbo Lai   qingbol@clemson.edu 
-Haotian Deng hdeng@clemson.edu
+Qingbo Lai   
+
+qingbol@clemson.edu 
+
+Haotian Deng 
+
+hdeng@clemson.edu
 
 ## Note
 This project construct and implement Convolutional Neural Networks (CNNs)
@@ -27,14 +32,17 @@ nonbullying category.
 ## Usages
 
 ## Testing
-You can test model use two methods
+You can test model use two methods.
+
 Testing one image 
+
 Command line:
 
 Testing 10 groups of classified images by the tagged file directory
 like laughing, pullinghair, quarrel, slapping, punching, stabbing, 
 gossiping, strangle, isolation and nonbullying. The output will be
 the accuracy of testing files.
+
 Command line:
 
 Best Testing accuracy result is 
