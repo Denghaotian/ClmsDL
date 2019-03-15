@@ -13,7 +13,7 @@ data_cat/*
 #tmp file
 tmp/*
 dataset.py
-predict.py
+#predict.py
 train.py
 trained_model/*
 trained_model_cat_1/*
