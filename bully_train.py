@@ -21,6 +21,8 @@ def main(_):
     #*prepare the training dataset & load data
     classes = os.listdir(FLAGS.train_path)
     # print(classes)
+    classes.sort()
+    # print(classes)
     flags.DEFINE_integer('class_number', len(classes), 'classes number.')
     # class_number= len(classes)
     print("class number is:", FLAGS.class_number)
@@ -153,12 +155,12 @@ if __name__ == "__main__":
     #set some superparameters which can reset befor run
     flags = tf.app.flags
     FLAGS = flags.FLAGS
-    flags.DEFINE_float('learning_rate', 0.1, 'Initial learning rate.')
+    flags.DEFINE_float('learning_rate', 0.0001, 'Initial learning rate.')
     # ?% of the data will be used for validation
     flags.DEFINE_float('validation_size', 0.2, 'validation size.')
     flags.DEFINE_integer('img_size', 128, 'image width=image height.')
     flags.DEFINE_integer('iteration_steps', 20000, 'Number of epochs to run trainer.')
-    flags.DEFINE_integer('batch_size', 32, 'Number of batch size.')
+    flags.DEFINE_integer('batch_size', 64, 'Number of batch size.')
     flags.DEFINE_string("train_path", "data_bully/training_data", "path of training data")
     flags.DEFINE_string("output_labels", "trained_model/output_labels.txt", "store the labels")
     flags.DEFINE_string("saved_dir", "trained_model", "save trained model")
@@ -186,6 +188,6 @@ if __name__ == "__main__":
     flags.DEFINE_integer('vgg_filter_depth3', 256, 'filter depth for conv1.')
     flags.DEFINE_integer('vgg_filter_depth4', 512, 'filter depth for conv1.')
     flags.DEFINE_integer('vgg_num_hidden1', 4096, 'filter depth for conv3.')
-    flags.DEFINE_integer('vgg_num_hidden2', 1000, 'filter depth for conv3.')
+    flags.DEFINE_integer('vgg_num_hidden2', 4096, 'filter depth for conv3.')
 
     tf.app.run()

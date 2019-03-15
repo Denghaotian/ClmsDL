@@ -26,6 +26,9 @@ def main(_):
 
     #Prepare input data
     classes = os.listdir(FLAGS.test_path )
+#     print(classes)
+    classes.sort()
+#     print(classes)
     num_classes = len(classes)
     print("number classes is ",num_classes)
 
@@ -55,11 +58,15 @@ def main(_):
         labels_pred_cls = tf.argmax(labels_pred, axis=1)
         labels_true_cls = tf.argmax(test_label, axis=1)
         #================for debug==============
-        # result=sess.run(y_pred, feed_dict=feed_dict_testing)
-        # result=sess.run(labels_pred_cls, feed_dict=feed_dict_testing)
-        # result=sess.run(labels_true_cls, feed_dict=feed_dict_testing)
         # result is of this format [probabiliy_of_A, probability_of_B]
+        # result=sess.run(y_pred, feed_dict=feed_dict_testing)
         # print(result)
+        result_pre=sess.run(labels_pred_cls, feed_dict=feed_dict_testing)
+        print("The predicted labels are:")
+        print(result_pre)
+        result_true=sess.run(labels_true_cls, feed_dict=feed_dict_testing)
+        print("The true labels are:")
+        print(result_true)
         #================for debug==============
         correct_prediction = tf.equal(labels_pred_cls, labels_true_cls)
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
