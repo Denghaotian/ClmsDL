@@ -30,6 +30,16 @@ stabbing, gossiping, strangle and isolation. The rest of images are
 nonbullying category. 
 
 ## Usages
+Default location of training data : data_bully/training_data
+Default location of testing data: data_bully/testing_data
+### Train
+python bully_train.py --train_path path-to-training-dataset
+### predict a single image
+python predict.py --img_file path-to-img/xxx.jpg
+### test the accuracy for testing dataset 
+python test.py --test_path path-to-testing-dataset`
+
+
 
 ## Testing
 You can test model use two methods.
