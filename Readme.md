@@ -15,6 +15,10 @@ This project construct and implement Convolutional Neural Networks (CNNs)
 to classify the bully picture. All codes were implementated and tested on 
 Palmetto www.palmetto.clemson.edu
 
+## Report
+
+Deep_learning_Midterm_Report.pdf is our project report
+
 ## Prerequisites
 Python3.6; TensorFlow framework 1.12
 
