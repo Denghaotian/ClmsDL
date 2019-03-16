@@ -39,7 +39,7 @@ If you want to train model please make directory "data_bully"
 
 Command line: python bully_train.py --train_path "path-to-training-dataset"
 
-## Predict and Train
+## Predict and Test
 
 Please download pre-trained model from Google drive which provided by TA,
 because the files are too large to upload to github.
