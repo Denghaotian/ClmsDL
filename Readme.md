@@ -33,11 +33,21 @@ nonbullying category.
 Default location of training data : data_bully/training_data
 
 Default location of testing data: data_bully/testing_data
+
+If you want to train model please make directory "data_bully"
 ### Train
 
 Command line: python bully_train.py --train_path "path-to-training-dataset"
 
+## Predict and Train
+
+Please download pre-trained model from Google drive which provided by TA,
+because the files are too large to upload to github.
+After downlaod pre-trained model, please unconpress and put it to "trained_model"
+directory.
+
 ### predict a single image
+
 
 python predict.py --img_file "path-to-img/xxx.jpg"
 ### test the accuracy for testing dataset 
