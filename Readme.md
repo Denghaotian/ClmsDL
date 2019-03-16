@@ -64,7 +64,7 @@ Command line: python test.py --test_path "path-to-testing-datase"
 
 ## Reference
 
-[1]Stanford 40 actions. In Stanford 40 Actions.
+[1]Stanford 40 actions. In Stanford 40 Actions. http://vision.stanford.edu/Datasets/40actions.html
 
 
 [2] Girdhar, R. and Ramanan, D. (2017). Attentional pooling for action recog-
