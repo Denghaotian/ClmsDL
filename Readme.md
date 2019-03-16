@@ -64,19 +64,26 @@ Command line: python test.py --test_path "path-to-testing-datase"
 
 ## Reference
 
-[1]Actions, S. . (2015). Stanford 40 actions. In Stanford 40 Actions.
+[1]Stanford 40 actions. In Stanford 40 Actions.
+
+
 [2] Girdhar, R. and Ramanan, D. (2017). Attentional pooling for action recog-
 nition. In Guyon, I., Luxburg, U. V., Bengio, S., Wallach, H., Fergus, R.,
 Vishwanathan, S., and Garnett, R., editors, Advances in Neural Information
 Processing Systems 30, pages 34{45. Curran Associates, Inc.
+
+
 [3] Gkioxari, G., Girshick, R., and Malik, J. (2015). Contextual action recogni-
 tion with r*cnn. In The IEEE International Conference on Computer Vision
 (ICCV).
-[4] palmetto (2015). palmetto. In https://www.palmetto.clemson.edu/palmetto/.
+
+[4] palmetto. In https://www.palmetto.clemson.edu/palmetto/.
+
 [5] Qassim, H., Verma, A., and Feinzimer, D. (2018). Compressed residual-vgg16
 cnn model for big data places image recognition. In 2018 IEEE 8th Annual
 Computing and Communication Workshop and Conference (CCWC), pages
 169{175.
+
 [6] Sharif Razavian, A., Azizpour, H., Sullivan, J., and Carlsson, S. (2014). Cnn
 features o-the-shelf: An astounding baseline for recognition. In The IEEE
 Conference on Computer Vision and Pattern Recognition (CVPR) Work-
